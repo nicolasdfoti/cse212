@@ -13,9 +13,9 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        // 1) Create an array of doubles with the size of "length".
-        // 2) Loop through the array from 0 to "length" - 1.
-        // 3) For each number in the array, multiply the number by "i + 1" until "length".
+        // 1) Create an empty array of doubles with the size of "length".
+        // 2) Use a for loop to iterate through the array, creating a variable to hold the index.
+        // 3) In every iteration, multiply the current number by the index + 1, and store the result in the array.
         // 4) Return the array.
 
         var numbers = new double[length];
@@ -41,5 +41,21 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+
+        // 1) Create an empty list to hold the last "amount" numbers from the original list.
+        // 2) Use a for loop to iterate the original list. It should start from the data.Count - amount to the end of the list.
+        // 3) Add the elements from the original list to the new list.
+        // 4) Outside the loop, remove the "amount" range from the original list.
+        // 5) Lastly, insert the range of numbers from the new list to index 0 in the original list.
+
+        List<int> lastElements = new List<int>();
+
+        for (int i = data.Count - amount; i < data.Count; i++)
+        {
+            lastElements.Add(data[i]);
+        }
+
+        data.RemoveRange(data.Count - amount, amount);
+        data.InsertRange(0, lastElements);
     }
 }
