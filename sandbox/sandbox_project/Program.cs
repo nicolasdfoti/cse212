@@ -11,13 +11,29 @@ public class Program
         Console.WriteLine("Hello Sandbox World!");
     }
 
-    public static void RotateListRight(List<int> data, int amount)
+    public static List<int> Interleave(List<int> list1, List<int> list2)
     {
-        List<int> lastElements = new List<int>();
+        List<int> result = new List<int>();
 
-        for (int i = data.Count - amount; i < data.Count; i++) 
+        int i = 0;
+        int j = 0;
+
+        while (i < list1.Count || j < list2.Count)
         {
-            
+            if (i < list1.Count)
+            {
+                result.Add(list1[i]);
+                i++;
+            }
+
+            if (j < list2.Count)
+            {
+                result.Add(list2[j]);
+                j++;
+            }
         }
+
+        return result;
     }
+   
 }
