@@ -13,7 +13,19 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return []; // replace this return statement with your own
+        // 1) Create an array of doubles with the size of "length".
+        // 2) Loop through the array from 0 to "length" - 1.
+        // 3) For each number in the array, multiply the number by "i + 1" until "length".
+        // 4) Return the array.
+
+        var numbers = new double[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            numbers[i] = number * (i + 1);
+        }
+
+        return numbers; // replace this return statement with your own
     }
 
     /// <summary>
