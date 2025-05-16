@@ -1,44 +1,67 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 [TestClass]
-public class StackTests
+public class StackQueueTests
 {
     [TestMethod]
-    public void TestPushAndPop()
+    public void TestPushAndDequeue()
     {
-        var stack = new Stack();
-        stack.Push(1);
-        stack.Push(2);
+        var sq = new StackQueue();
+        sq.Push(10);
+        sq.Push(20);
+        sq.Push(30);
 
-        Assert.AreEqual(2, stack.Pop());
-        Assert.AreEqual(1, stack.Pop());
+        Assert.AreEqual(10, sq.Dequeue());
+        Assert.AreEqual(20, sq.Dequeue());
+        Assert.AreEqual(30, sq.Dequeue());
     }
 
     [TestMethod]
     public void TestPeek()
     {
-        var stack = new Stack();
-        stack.Push(1);
-        stack.Push(2);
+        var sq = new StackQueue();
+        sq.Push(99);
+        Assert.AreEqual(99, sq.Peek());
+        Assert.AreEqual(99, sq.Peek());
+    }
 
-        Assert.AreEqual(2, stack.Peek());
-        stack.Pop();
-        Assert.AreEqual(1, stack.Peek());
+    [TestMethod]
+    public void TestIsEmpty()
+    {
+        var sq = new StackQueue();
+        Assert.IsTrue(sq.IsEmpty());
+        sq.Push(1);
+        Assert.IsFalse(sq.IsEmpty());
+        sq.Dequeue();
+        Assert.IsTrue(sq.IsEmpty());
+    }
+
+    [TestMethod]
+    public void TestCount()
+    {
+        var sq = new StackQueue();
+        Assert.AreEqual(0, sq.Count());
+        sq.Push(1);
+        sq.Push(2);
+        Assert.AreEqual(2, sq.Count());
+        sq.Dequeue();
+        Assert.AreEqual(1, sq.Count());
     }
 
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
-    public void TestPopEmptyStack()
+    public void TestDequeueEmpty()
     {
-        var stack = new Stack();
-        stack.Pop();
+        var sq = new StackQueue();
+        sq.Dequeue();
     }
 
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
-    public void TestPeekEmptyStack()
+    public void TestPeekEmpty()
     {
-        var stack = new Stack();
-        stack.Peek();
+        var sq = new StackQueue();
+        sq.Peek();
     }
 }
