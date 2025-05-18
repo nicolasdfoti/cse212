@@ -22,15 +22,35 @@ public class Basketball
         using var reader = new TextFieldParser("basketball.csv");
         reader.TextFieldType = FieldType.Delimited;
         reader.SetDelimiters(",");
+
         reader.ReadFields(); // ignore header row
-        while (!reader.EndOfData) {
+
+        while (!reader.EndOfData)
+        {
             var fields = reader.ReadFields()!;
             var playerId = fields[0];
             var points = int.Parse(fields[8]);
+
+            // get the points for each player for every season
+            if (players.ContainsKey(playerId))
+            {
+                players[playerId] += points;
+            }
+            else
+            {
+                players[playerId] = points;
+            }
         }
 
-        Console.WriteLine($"Players: {{{string.Join(", ", players)}}}");
+        // organize the dictionary into an array to sort it
+        var topPlayers = players.ToArray();
 
-        var topPlayers = new string[10];
+        // get the topPlayers array and sort it
+        Array.Sort(topPlayers, (p1, p2) => p2.Value - p1.Value);
+
+        for (var i = 0; i < 10; i++)
+        {
+            Console.WriteLine(topPlayers[i]);
+        }
     }
 }
