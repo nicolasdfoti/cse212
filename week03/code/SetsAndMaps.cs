@@ -1,4 +1,6 @@
 using System.Text.Json;
+using Microsoft.VisualBasic;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 public static class SetsAndMaps
 {
@@ -22,7 +24,29 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+
+        var set = new HashSet<string>();
+        var result = new HashSet<string>();
+
+        foreach (var word in words)
+        {
+            var reversed = $"{word[1]}{word[0]}";
+
+            if (word.Length != 2 || word[0] == word[1])
+            {
+                continue;
+            }
+            else if (set.Contains(reversed))
+            {
+                result.Add($"{word} & {reversed}");
+            }
+            else
+            {
+                set.Add(word);
+            }
+        }
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -39,10 +63,23 @@ public static class SetsAndMaps
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
         var degrees = new Dictionary<string, int>();
+
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+
+            var degree = fields[3];
+
+            if (degrees.ContainsKey(degree))
+            {
+                degrees[degree]++;
+            }
+
+            else
+            {
+                degrees[degree] = 1;
+            }
         }
 
         return degrees;
@@ -67,7 +104,53 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+
+        var dictionary = new Dictionary<char, int>();
+
+        word1 = word1.ToLower().Replace(" ", "");
+        word2 = word2.ToLower().Replace(" ", "");
+
+        if (word1.Length != word2.Length)
+        {
+            return false;
+        }
+
+        foreach (var letter in word1)
+        {
+            if (dictionary.ContainsKey(letter))
+            {
+                dictionary[letter]++;
+            }
+            else
+            {
+                dictionary[letter] = 1;
+            }
+        }
+
+        foreach (var letter in word2)
+        {
+            if (!dictionary.ContainsKey(letter))
+            {
+                return false;
+            }
+
+            dictionary[letter]--;
+
+            if (dictionary[letter] < 0)
+            {
+                return false;
+            }
+        }
+
+        foreach (var count in dictionary)
+        {
+            if (count.Value != 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -87,11 +170,17 @@ public static class SetsAndMaps
     public static string[] EarthquakeDailySummary()
     {
         const string uri = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+
         using var client = new HttpClient();
+
         using var getRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
         using var jsonStream = client.Send(getRequestMessage).Content.ReadAsStream();
+
         using var reader = new StreamReader(jsonStream);
+
         var json = reader.ReadToEnd();
+
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
@@ -101,6 +190,17 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+
+        var list = new List<string>();
+
+        foreach (var item in featureCollection.Features)
+        {
+            var place = item.Properties.Place;
+            var magnitude = item.Properties.Mag;
+
+            list.Add($"{place} - Mag {magnitude}");
+        }
+
+        return list.ToArray();
     }
 }
