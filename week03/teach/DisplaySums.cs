@@ -35,7 +35,6 @@
 
         foreach (var number in numbers)
         {
-
             if (set.Contains(10 - number))
             {
                 Console.WriteLine($"{number} + {10 - number}");

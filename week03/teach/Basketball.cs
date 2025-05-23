@@ -48,6 +48,7 @@ public class Basketball
         // get the topPlayers array and sort it
         Array.Sort(topPlayers, (p1, p2) => p2.Value - p1.Value);
 
+        // write the top ten players with more points with a for loop
         for (var i = 0; i < 10; i++)
         {
             Console.WriteLine(topPlayers[i]);
